@@ -1,0 +1,12 @@
+// A simple C-- program to greet the world
+int main() {
+    int x; // Declare an integer variable 'x'
+    x = 10; // Assign value 10 to 'x'
+    // output x; // Uncomment this when you add output functionality
+    if (x == 10) {
+        // print something
+    } else {
+        // print something else
+    }
+    return 0; // Return statement
+}
