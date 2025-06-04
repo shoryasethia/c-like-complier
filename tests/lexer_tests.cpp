@@ -1,15 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <cassert>     // For simple asserts (though mostly for internal test helper)
-#include <functional>  // For std::function
-#include <numeric>     // Not directly used but often helpful
-#include <any>         // For std::any_cast
+#include <cassert>     
+#include <functional>  
+#include <numeric>     
+#include <any>         
 
 #include "../src/Lexer.h"
 #include "../src/Token.h"
 
-using namespace std; // Use std namespace throughout this file
+using namespace std;
 
 // Re-declare the error flag for tests to reset it.
 // This allows tests to check if lexical errors were reported.

@@ -1,11 +1,11 @@
 #include "Lexer.h"
-#include "Token.h" // Token.h is needed because main.cpp outputs tokens
+#include "Token.h"
 #include <iostream>
 #include <fstream>
-#include <sstream> // For reading file content into string
+#include <sstream>
 #include <vector>
 
-using namespace std; // Added as per request
+using namespace std;
 
 // Forward declaration for the error reporting function
 extern bool had_lexer_error; // Declare the error flag from Lexer.cpp
@@ -17,7 +17,7 @@ void run(const string& source);
 int main(int argc, char* argv[]) {
     if (argc > 2) {
         cerr << "Usage: " << argv[0] << " [script_file]" << endl;
-        return 64; // EX_USAGE (from sysexits.h)
+        return 64; 
     } else if (argc == 2) {
         runFile(argv[1]);
     } else {
@@ -31,17 +31,17 @@ void runFile(const string& path) {
     ifstream file(path);
     if (!file.is_open()) {
         cerr << "Error: Could not open file '" << path << "'" << endl;
-        exit(66); // EX_NOINPUT
+        exit(66); 
     }
 
     stringstream buffer;
-    buffer << file.rdbuf(); // Read entire file content into a stringstream
+    buffer << file.rdbuf(); 
     string source = buffer.str();
 
     run(source);
 
-    if (had_lexer_error) { // Check if any lexer errors occurred
-        exit(65); // EX_DATAERR
+    if (had_lexer_error) { 
+        exit(65); 
     }
 }
 
@@ -49,11 +49,11 @@ void runPrompt() {
     string line;
     while (true) {
         cout << "> ";
-        if (!getline(cin, line)) { // Read line, returns false on EOF (Ctrl+D/Z)
+        if (!getline(cin, line)) { /
             break;
         }
         run(line);
-        had_lexer_error = false; // Reset error flag for next prompt
+        had_lexer_error = false; 
     }
 }
 

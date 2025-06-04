@@ -6,13 +6,11 @@
 #include <vector>
 #include <map>
 #include <any>
-#include <cstddef> // For size_t
+#include <cstddef>
 
 using namespace std;
 
-// ----------------------------------------------------
 // Global error reporting function
-// ----------------------------------------------------
 bool had_lexer_error = false;
 
 void reportLexerError(int line, int column, const string& message) {
@@ -20,9 +18,7 @@ void reportLexerError(int line, int column, const string& message) {
     had_lexer_error = true;
 }
 
-// ----------------------------------------------------
 // Static members initialization
-// ----------------------------------------------------
 const map<string, TokenType> Lexer::keywords = Lexer::createKeywordsMap();
 
 map<string, TokenType> Lexer::createKeywordsMap() {
@@ -38,11 +34,8 @@ map<string, TokenType> Lexer::createKeywordsMap() {
     return map;
 }
 
-// ----------------------------------------------------
-// Lexer Class Implementation
-// ----------------------------------------------------
 
-// Constructor: Initializes internal column tracker to 0-based
+// Lexer Class Implementation
 Lexer::Lexer(const string& source) : source_code(source) {
     column = 0; // Initialize to 0 for 0-based indexing
     current_token_start_column = 1; // Always 1-based for reporting
@@ -56,7 +49,7 @@ vector<Token> Lexer::tokenize() {
     current_token_start_column = 1;
 
     while (true) {
-        skipWhitespaceAndComments(); // Existing call
+        skipWhitespaceAndComments(); 
 
         if (isAtEnd()) {
             break;
@@ -67,8 +60,8 @@ vector<Token> Lexer::tokenize() {
         scanToken();
     }
 
-    if (!tokens.empty() || source_code.length() > 0) { // Only if there was some source
-        skipWhitespaceAndComments(); // Force one last skip
+    if (!tokens.empty() || source_code.length() > 0) { 
+        skipWhitespaceAndComments();
     }
 
     tokens.emplace_back(EOF_TOKEN, "", any(), line, column + 1);
@@ -79,7 +72,6 @@ bool Lexer::isAtEnd() const {
     return static_cast<size_t>(current_char_idx) >= source_code.length();
 }
 
-// advance() now ONLY moves current_char_idx. Column updates are explicit elsewhere.
 char Lexer::advance() {
     return source_code[current_char_idx++];
 }
@@ -100,7 +92,6 @@ void Lexer::addToken(TokenType type) {
 
 void Lexer::addToken(TokenType type, any literal_value) {
     string lexeme = source_code.substr(start_lexeme_idx, current_char_idx - start_lexeme_idx);
-    // current_token_start_column is already 1-based
     tokens.emplace_back(type, lexeme, literal_value, line, current_token_start_column);
 }
 
@@ -142,8 +133,8 @@ void Lexer::skipWhitespaceAndComments() {
 void Lexer::readNumber() {
     // Current 'column' is 0-based.
     while (isdigit(peek())) {
-        advance(); // advance() only moves current_char_idx now
-        column++;  // <--- MODIFIED: Explicitly increment column here for each char
+        advance();
+        column++;
     }
     string num_str = source_code.substr(start_lexeme_idx, current_char_idx - start_lexeme_idx);
     try {
@@ -161,8 +152,8 @@ void Lexer::readNumber() {
 void Lexer::readIdentifierOrKeyword() {
     // Current 'column' is 0-based.
     while (isalnum(peek()) || peek() == '_') {
-        advance(); // advance() only moves current_char_idx
-        column++;  // <--- MODIFIED: Explicitly increment column here for each char
+        advance(); 
+        column++;  
     }
     string text = source_code.substr(start_lexeme_idx, current_char_idx - start_lexeme_idx);
     auto it = keywords.find(text);
@@ -173,19 +164,19 @@ void Lexer::readIdentifierOrKeyword() {
     }
 }
 
-// match() now updates 'column' explicitly
+
 bool Lexer::match(char expected) {
     if (isAtEnd()) return false;
     if (source_code[current_char_idx] != expected) return false;
     current_char_idx++; // Consume
-    column++;           // <--- MODIFIED: Increment 0-based column for the matched char
+    column++;           
     return true;
 }
 
-// scanToken now updates 'column' explicitly after its initial advance()
+
 void Lexer::scanToken() {
-    char c = advance(); // advance() only moves current_char_idx.
-    column++;           // <--- MODIFIED: Explicitly increment 0-based column for the character 'c'
+    char c = advance(); 
+    column++;       
 
     switch (c) {
         case '(': addToken(DELIM_LPAREN); break;

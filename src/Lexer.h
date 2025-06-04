@@ -32,7 +32,7 @@ private:
 
     // column: Current column number (0-based, points to the column of current_char_idx)
     // This is the INTERNAL column tracker, 0-based to align with string indexing.
-    int column = 0;           // <--- MODIFIED: Initialized to 0
+    int column = 0;  
 
     // current_token_start_column: The 1-based column where the *current token* began.
     // This is captured once at the start of scanToken() for the token being built.

@@ -1,11 +1,9 @@
 #pragma once
 
 #include <string>
-#include <any> // For holding various types of literal values (C++17)
+#include <any> 
 
-// ----------------------------------------------------
 // TokenType: Defines all possible token types for C--
-// ----------------------------------------------------
 enum TokenType {
     // Keywords
     KEYWORD_INT, KEYWORD_VOID, KEYWORD_IF, KEYWORD_ELSE,
@@ -28,9 +26,8 @@ enum TokenType {
     EOF_TOKEN
 };
 
-// ----------------------------------------------------
+
 // Token: Represents a single lexical unit
-// ----------------------------------------------------
 struct Token {
     TokenType type;
     std::string value; // The lexeme (raw string from source)
@@ -47,7 +44,7 @@ struct Token {
         : type(type), value(std::move(value)), literal_value(), // default-constructed any (empty)
           line(line), column(column) {}
 
-    // Method to get a string representation of the Token for debugging
+    // Method to get a string representation of the Token
     std::string toString() const;
 };
 
